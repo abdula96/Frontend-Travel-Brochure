@@ -183,7 +183,8 @@ button:hover {
 .banner img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Try contain, fill, scale-down, or none */
+  object-fit: cover; /* Use cover to ensure the entire container is filled */
+  image-rendering: -webkit-optimize-contrast; /* Improve image rendering quality */
   image-rendering: crisp-edges; /* Try auto, pixelated, etc. */
 }
 
