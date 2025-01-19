@@ -31,4 +31,3 @@ const Banner = ({ places }) => {
 };
 
 export default Banner;
-<s></s>;
