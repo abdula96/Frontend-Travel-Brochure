@@ -1,6 +1,6 @@
 /* Global Styles */
 body {
-  font-family: "Poppins", Arial, sans-serif; /* Modern and elegant font */
+  font-family: "Poppins", Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4; /* Soft, neutral background */
@@ -36,22 +36,29 @@ textarea {
 /* Navbar */
 .navbar {
   display: flex;
-  justify-content: center; /* Centered links for balance */
+  justify-content: center; /* Center navbar links */
   gap: 30px;
-  background-color: #007bff; /* Vibrant blue */
+  background-color: #007bff;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow */
 }
 
 .navbar a {
   color: white;
+  text-decoration: none;
   font-weight: bold;
-  text-transform: uppercase;
+  padding: 5px 10px;
   font-size: 14px;
+  text-transform: uppercase;
 }
 
 .navbar a:hover {
   text-decoration: underline;
+}
+
+.navbar a.active-link {
+  border-bottom: 2px solid yellow; /* Highlight active link */
+  padding-bottom: 3px; /* Adjust spacing for border */
 }
 
 /* SearchBar */
@@ -165,19 +172,36 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Featured Image Banner (Optional) */
+/* Banner Styles */
 .banner {
+  position: relative;
   width: 100%;
-  height: 300px;
-  background: url("/path/to/your/image.jpg") no-repeat center center/cover; /* Replace with your image */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  height: 300px; /* Adjust height as needed */
+  overflow: hidden;
 }
 
-.banner h1 {
-  font-size: 48px;
-  font-weight: bold;
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Try contain, fill, scale-down, or none */
+  image-rendering: crisp-edges; /* Try auto, pixelated, etc. */
+}
+
+.banner-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.banner-caption a {
+  text-decoration: none;
+  color: white; /* Ensure link text color matches the caption */
+}
+
+.banner-caption a:hover {
+  text-decoration: underline; /* Optional: Add underline on hover */
 }
