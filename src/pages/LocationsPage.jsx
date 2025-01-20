@@ -1,44 +1,91 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import axios from "axios";
+import Banner from "../components/Banner";
+import { getAllPlaces } from "../apiService";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const LocationsPage = () => {
   const [locations, setLocations] = useState([]);
   const [filteredLocations, setFilteredLocations] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const query = useQuery();
+  const navigate = useNavigate();
+  const currentSearch = query.get("search") || "";
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL;
-        const response = await axios.get(`${API_URL}/places`);
-        setLocations(response.data);
-        setFilteredLocations(response.data); // Default to show all locations
+        const data = await getAllPlaces();
+        setPlaces(data);
+        setLocations(data);
+
+        if (currentSearch) {
+          handleSearch(currentSearch, data);
+        } else {
+          setFilteredLocations(data); // Default to show all locations
+        }
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
     };
 
     fetchLocations();
-  }, []);
+  }, [currentSearch]);
 
-  const handleSearch = (query) => {
-    const filtered = locations.filter((location) =>
-      location.name.toLowerCase().includes(query.toLowerCase())
+  const handleSearch = (query, locationData = locations) => {
+    if (query !== currentSearch) {
+      navigate(`/locations?search=${query}`);
+    }
+    const filtered = locationData.filter(
+      (location) =>
+        location.name.toLowerCase().includes(query.toLowerCase()) ||
+        location.description.toLowerCase().includes(query.toLowerCase()) ||
+        location.location.city.toLowerCase().includes(query.toLowerCase()) ||
+        location.location.country.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredLocations(filtered);
   };
 
+  const handleLocationClick = (name) => {
+    navigate(`/locations?search=${name}`);
+  };
+
   return (
     <div>
+      <Banner places={places} />
       <h1>Locations</h1>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={(query) => handleSearch(query, locations)} />
       <div className="locations-grid">
-        {filteredLocations.map((location) => (
-          <div key={location._id} className="location-card">
-            <h3>{location.name}</h3>
-            <p>{location.description}</p>
-          </div>
-        ))}
+        {filteredLocations.length > 0 ? (
+          filteredLocations.map((location) => (
+            <div
+              key={location._id}
+              className="location-card"
+              onClick={() => handleLocationClick(location.name)}
+            >
+              <img
+                src={location.image}
+                alt={location.name}
+                className="location-image"
+              />
+              <h3>{location.name}</h3>
+              <p>{location.description}</p>
+              {location.facts && (
+                <ul>
+                  {location.facts.map((fact, index) => (
+                    <li key={index}>{fact}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No results found</p>
+        )}
       </div>
     </div>
   );
