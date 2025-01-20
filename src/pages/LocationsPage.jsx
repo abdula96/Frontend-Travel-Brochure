@@ -50,8 +50,12 @@ const LocationsPage = () => {
     setFilteredLocations(filtered);
   };
 
-  const handleLocationClick = (name) => {
-    navigate(`/locations?search=${name}`);
+  const handleLocationClick = (id) => {
+    const selectedLocation = locations.find((location) => location._id === id);
+    if (selectedLocation) {
+      setFilteredLocations([selectedLocation]);
+      navigate(`/locations?search=${selectedLocation.name}`);
+    }
   };
 
   return (
@@ -65,7 +69,7 @@ const LocationsPage = () => {
             <div
               key={location._id}
               className="location-card"
-              onClick={() => handleLocationClick(location.name)}
+              onClick={() => handleLocationClick(location._id)}
             >
               <img
                 src={location.image}
@@ -74,7 +78,10 @@ const LocationsPage = () => {
               />
               <h3>{location.name}</h3>
               <p>{location.description}</p>
-              {location.facts && (
+              <p>
+                {location.location.city}, {location.location.country}
+              </p>
+              {location.facts && location.facts.length > 0 && (
                 <ul>
                   {location.facts.map((fact, index) => (
                     <li key={index}>{fact}</li>
