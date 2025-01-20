@@ -27,7 +27,11 @@ export const getLocationById = async (id) => {
 // Add a new place
 export const addPlace = async (placeData) => {
   try {
-    const response = await axios.post(API_URL, placeData);
+    const response = await axios.post(API_URL, placeData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error adding place:", error);

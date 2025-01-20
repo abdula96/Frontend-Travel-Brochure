@@ -18,10 +18,19 @@ const Banner = ({ places }) => {
     }
   };
 
+  const getImageUrl = (place) => {
+    // If the image path starts with '/', consider it a public image
+    if (place.image.startsWith("/")) {
+      return place.image;
+    }
+    // Otherwise, it's an uploaded image
+    return `http://localhost:5000/${place.image}`;
+  };
+
   return (
     randomPlace && (
       <div className="banner">
-        <img src={randomPlace.image} alt={randomPlace.name} />
+        <img src={getImageUrl(randomPlace)} alt={randomPlace.name} />
         <div className="banner-caption" onClick={handleCaptionClick}>
           <h2>{randomPlace.name}</h2>
         </div>

@@ -34,6 +34,15 @@ const HomePage = () => {
     navigate(`/locations?search=${name}`);
   };
 
+  const getImageUrl = (place) => {
+    // If the image path starts with '/', consider it a public image
+    if (place.image.startsWith("/")) {
+      return place.image;
+    }
+    // Otherwise, it's an uploaded image
+    return `http://localhost:5000/${place.image}`;
+  };
+
   return (
     <div>
       <Banner places={places} />
@@ -47,7 +56,7 @@ const HomePage = () => {
             onClick={() => handleFeaturedClick(location.name)}
           >
             <img
-              src={location.image}
+              src={getImageUrl(location)} // Ensure the URL is correct
               alt={location.name}
               className="location-image"
             />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import Banner from "../components/Banner";
-import { getAllPlaces } from "../apiService";
+import { getAllPlaces, deletePlace } from "../apiService";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -58,6 +58,27 @@ const LocationsPage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await deletePlace(id);
+      const updatedLocations = locations.filter(
+        (location) => location._id !== id
+      );
+      setLocations(updatedLocations);
+      setFilteredLocations(updatedLocations);
+      console.log("Place deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting place:", error);
+    }
+  };
+
+  const getImageUrl = (location) => {
+    if (location.image.startsWith("/")) {
+      return location.image;
+    }
+    return `http://localhost:5000/${location.image}`;
+  };
+
   return (
     <div>
       <Banner places={places} />
@@ -69,10 +90,10 @@ const LocationsPage = () => {
             <div
               key={location._id}
               className="location-card"
-              onClick={() => handleLocationClick(location._id)}
+              onClick={() => handleLocationClick(location._id)} // Updated click handler
             >
               <img
-                src={location.image}
+                src={getImageUrl(location)} // Ensure the URL is correct
                 alt={location.name}
                 className="location-image"
               />
@@ -88,6 +109,7 @@ const LocationsPage = () => {
                   ))}
                 </ul>
               )}
+              <button onClick={() => handleDelete(location._id)}>Delete</button>
             </div>
           ))
         ) : (
