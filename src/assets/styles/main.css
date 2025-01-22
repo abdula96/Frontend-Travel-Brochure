@@ -103,7 +103,6 @@ textarea {
 }
 
 .location-card {
-  border: none;
   border-radius: 10px;
   overflow: hidden;
   background-color: white;
@@ -149,14 +148,6 @@ form {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-input,
-textarea {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
 button {
   padding: 12px 20px;
   background-color: #007bff;
@@ -184,8 +175,6 @@ button:hover {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Use cover to ensure the entire container is filled */
-  image-rendering: -webkit-optimize-contrast; /* Improve image rendering quality */
-  image-rendering: crisp-edges; /* Try auto, pixelated, etc. */
 }
 
 .banner-caption {
@@ -205,4 +194,41 @@ button:hover {
 
 .banner-caption a:hover {
   text-decoration: underline; /* Optional: Add underline on hover */
+}
+
+/* Dashboard Page */
+.dashboard-page {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align content to the left */
+}
+
+.form-container-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 30%; /* Make the container smaller */
+}
+
+.form-section {
+  flex: 1;
+}
+
+.input-small {
+  width: 100%; /* Ensure the inputs are smaller within the container */
+  padding: 5px; /* Make the input box smaller */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.small-button {
+  padding: 6px 12px; /* Make the button smaller */
+}
+
+.centered-text {
+  text-align: center;
+  width: 100%;
+  position: relative;
+  left: 10%;
 }

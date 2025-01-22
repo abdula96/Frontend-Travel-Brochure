@@ -8,7 +8,7 @@ const AddPlacePage = () => {
     city: "",
     country: "",
     description: "",
-    image: null, // Add image to the state
+    image: null,
   });
 
   const [places, setPlaces] = useState([]);
@@ -32,27 +32,21 @@ const AddPlacePage = () => {
   };
 
   const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] }); // Handle file input
-    console.log("Image selected:", e.target.files[0]); // Log the selected file
+    setFormData({ ...formData, image: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted"); // Log form submission
-    console.log("Form data:", formData); // Log form data
 
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);
     formDataObj.append("city", formData.city);
     formDataObj.append("country", formData.country);
     formDataObj.append("description", formData.description);
-    formDataObj.append("image", formData.image); // Add image to form data
-
-    console.log("FormData object:", formDataObj); // Log FormData object
+    formDataObj.append("image", formData.image);
 
     try {
       const newPlace = await addPlace(formDataObj);
-      console.log("Place added:", newPlace);
       setFormData({
         name: "",
         city: "",
@@ -60,6 +54,7 @@ const AddPlacePage = () => {
         description: "",
         image: null,
       });
+      console.log("Place added:", newPlace);
     } catch (error) {
       console.error("Error adding place:", error);
     }

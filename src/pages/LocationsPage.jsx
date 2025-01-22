@@ -15,6 +15,7 @@ const LocationsPage = () => {
   const query = useQuery();
   const navigate = useNavigate();
   const currentSearch = query.get("search") || "";
+  const userId = localStorage.getItem("userId"); // Get the current user's ID
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -26,7 +27,7 @@ const LocationsPage = () => {
         if (currentSearch) {
           handleSearch(currentSearch, data);
         } else {
-          setFilteredLocations(data); // Default to show all locations
+          setFilteredLocations(data);
         }
       } catch (error) {
         console.error("Error fetching locations:", error);
@@ -90,10 +91,10 @@ const LocationsPage = () => {
             <div
               key={location._id}
               className="location-card"
-              onClick={() => handleLocationClick(location._id)} // Updated click handler
+              onClick={() => handleLocationClick(location._id)}
             >
               <img
-                src={getImageUrl(location)} // Ensure the URL is correct
+                src={getImageUrl(location)}
                 alt={location.name}
                 className="location-image"
               />
@@ -109,7 +110,11 @@ const LocationsPage = () => {
                   ))}
                 </ul>
               )}
-              <button onClick={() => handleDelete(location._id)}>Delete</button>
+              {location.user === userId && (
+                <button onClick={() => handleDelete(location._id)}>
+                  Delete
+                </button>
+              )}
             </div>
           ))
         ) : (
